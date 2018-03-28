@@ -22,6 +22,8 @@ To simulate and test the system, GUI was developed. GUI cen be controlled by cli
 - red arrow and blue arrow on the ritgh of a panel, to set desired temperature inside vehicle
 - blue or orange arrow ont the left of a panel indicates wheather system is cooling or heating air  
 ![lin2](https://user-images.githubusercontent.com/37666186/38032004-e34d8806-329c-11e8-9375-b2cf4b6b12e3.PNG)
+![wdwadwa](https://user-images.githubusercontent.com/37666186/38033524-83690704-32a0-11e8-879d-c9f40c2a70ca.gif)
+
 
 ## Another features
 The system has diagnostics and error handling features. One of them is polling slaves by a master between starting transfer data ( diagnostic frames ). To visualize this process LEDs are lighted when positive response is received. Also 'trace' windows enables looking at frames.   
