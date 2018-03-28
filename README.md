@@ -26,7 +26,7 @@ To simulate and test the system, GUI was developed. GUI cen be controlled by cli
 
 
 ## Another features
-The system has diagnostics and error handling features. One of them is polling slaves by a master between starting transfer data ( diagnostic frames ). To visualize this process LEDs are lighted when positive response is received. Also 'trace' windows enables looking at frames.   
+The system has diagnostics and error handling features. One of them is polling slaves by a master before starting transfer data ( diagnostic frames ). To visualize this process LEDs are lighted when positive response is received. Also 'trace' windows enables looking at frames.   
 ![aaaaaa](https://user-images.githubusercontent.com/37666186/38032690-90d59f76-329e-11e8-8712-11615d2d5d22.gif)  
 ![der](https://user-images.githubusercontent.com/37666186/38033171-b68db194-329f-11e8-80ad-0428506dc754.gif)
 
