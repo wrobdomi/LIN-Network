@@ -1,0 +1,41 @@
+/*@!Encoding:1250*/
+includes
+{
+  
+}
+
+variables
+{
+  
+}
+
+on linMessage AirCond // Set AirCondition On or Off, on a proper Level and
+                      // proper hot depending on signal values from the frame
+{
+  if( this.AirCondActiv ==  1 && this.AirCondLevel == 2)
+  {
+    @LIN::AirCond_ver = this.AirCondActiv;
+    @LIN::AirCondLevel_ver = this.AirCondLevel;
+    @LIN::ColdAir = this.AirCondCold;
+    @LIN::HotAir = this.AirCondHot;
+  }
+  else if(this.AirCondActiv == 1 && this.AirCondLevel == 1)
+  {
+    @LIN::AirCond_ver = this.AirCondActiv;
+    @LIN::AirCondLevel_ver = this.AirCondLevel;
+    @LIN::ColdAir = this.AirCondCold;
+    @LIN::HotAir = this.AirCondHot;
+  }
+  else
+  {
+    @LIN::AirCond_ver = this.AirCondActiv;
+    @LIN::AirCondLevel_ver = this.AirCondLevel;
+    @LIN::ColdAir = this.AirCondCold;
+    @LIN::HotAir = this.AirCondHot;
+  }
+}
+  
+on linMessage MasterReq_3
+{
+  $SlaveResp_3 = 1;
+}

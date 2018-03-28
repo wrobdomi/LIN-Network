@@ -1,0 +1,27 @@
+/*@!Encoding:1250*/
+includes
+{
+  
+}
+
+variables
+{
+  
+}
+
+on key '+'
+{
+  $Temperature = $Temperature+1;
+}
+
+on key '-'
+{
+  $Temperature = $Temperature-1;
+}
+
+on linMessage MasterReq_2
+{
+  $SlaveResp_2 = 1;
+}
+
+

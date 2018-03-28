@@ -1,0 +1,25 @@
+/*@!Encoding:1250*/
+includes
+{
+  
+}
+
+variables
+{
+  
+}
+
+on key 'a'
+{
+  $OpeningSensor = 0;
+}
+
+on key 's'
+{
+  $OpeningSensor = 1;
+}
+
+on linMessage MasterReq_1
+{
+  $SlaveResp_1 = 1;
+}

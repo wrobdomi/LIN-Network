@@ -1,0 +1,177 @@
+/*@!Encoding:1250*/
+includes
+{
+  
+}
+
+variables
+{
+  int tempDes;     // The temperature desired by the driver in the vehicle
+  int TempOut;     // Specifies the temperature in the Vehicle
+  dword checkId ;
+  int SlaveConfirmation1 ; // States wheather slaves are working propely
+  int SlaveConfirmation2 ;
+  int SlaveConfirmation3 ;
+}
+
+on preStart
+{
+  
+  tempDes = sysGetVariableInt(sysvar::LIN::TempDesired);
+  TempOut = $Temperature - 32; // Analog Sensor scalling neccessary
+  
+}
+
+on start
+{
+    write("Diagnostics Actions Started");
+    openPanel("Panel1");
+    openPanel("Panel3");
+    LINStartScheduler();
+    
+}
+
+on linTransmError
+{
+  linStopScheduler();
+  write("Transmission Error - AirConditiong is not working.");
+}
+
+on linMessage DiagnosticsCompleted
+{
+  if( $SlaveResp_1 == 1 && $SlaveResp_2 == 1 && $SlaveResp_3 == 1)
+    {
+      linChangeSchedTable(1);
+    }
+    
+    write("Transmission Started");
+}
+  
+
+// CREATING CONTROL SIGNALS
+
+// STEP 1 - READING TEMPERATURE SENSOR
+
+// after getting a message from TemperatureSensor
+on linMessage TemperatureSensor
+{
+  
+  
+  TempOut = $Temperature - 32; // Analog Sensor Scalling neccessary
+  @LIN::Temp_ver = TempOut ;
+  
+  
+  // The following codition states that no action should
+  // be taken in case Automatic Air Conditioning was Off
+  if ( $AirCondActiv == 0 ) 
+  {
+    $AirCondActiv = 0;
+    $AirCondLevel = 0;
+    $AirCondCold = 0;
+    $AirCondHot = 0;
+  }
+  else if( $AirCondActiv == 1 && abs( TempOut - tempDes ) > 5 ) // Total difference beetwen temperatures is over 10
+   {
+    $AirCondActiv = 1;
+    $AirCondLevel = 2;
+    if( ( TempOut > tempDes ) ) // Determine if AirCond is to warm or cool air
+      {
+        $AirCondHot = 0 ;
+        $AirCondCold = 1 ;
+      }
+    else
+      {
+        $AirCondHot = 1 ;
+        $AirCondCold = 0 ;
+      }
+  }
+  else if( $AirCondActiv == 1 && abs( TempOut - tempDes ) >= 1 && abs( TempOut - tempDes ) <= 5 ) // Total difference beetwen temperatures is over 5
+  {
+    $AirCondActiv = 1;
+    $AirCondLevel = 1;
+     if( ( TempOut > tempDes ) )  // Determine if AirCond is to warm or cool air
+       {
+        $AirCondHot = 0 ;
+        $AirCondCold = 1 ;
+      }
+    else
+      {
+        $AirCondHot = 1 ;
+        $AirCondCold = 0 ;
+      }
+  }
+  else if( $AirCondActiv == 1 && TempOut == tempDes )
+  {
+    $AirCondLevel = 0;
+    $AirCondHot = 0;
+    $AirCondCold = 0;
+  }
+ 
+}
+
+// STEP 2 - READING WINDOWS SENSOR
+
+// After getting a message from OpeningSensor
+on linmessage OpeningSensor
+{
+  // mo¿na tu dodaæ obs³ugê b³êdu
+  // if(this.OpeningSensor_error)
+  
+  // If any windows are open don't let the AirCond to work
+  if (this.OpeningSensor)
+  {
+    @LIN::OpeningSensor_ver = 1 ;
+    $AirCondActiv = 0;
+    $AirCondLevel = 0;
+    $AirCondCold = 0;
+    $AirCondHot = 0;
+   }
+  else // If all windows closed do not change anything but sensor state
+    @LIN::OpeningSensor_ver = 0 ;
+}
+
+
+// PANEL BUTTONS CONTROL 
+
+on sysvar LIN::SetTempUp
+{
+  tempDes = sysGetVariableInt(sysvar::LIN::TempDesired);
+  if( @this == 1 )
+    sysSetVariableInt( sysvar::LIN::TempDesired,++tempDes );
+}
+
+on sysvar LIN::SetTempDown
+{
+  tempDes = sysGetVariableInt(sysvar::LIN::TempDesired);
+  if( @this == 1 )
+    sysSetVariableInt(sysvar::LIN::TempDesired, --tempDes );
+}
+
+
+on key '1'
+{
+  $AirCondActiv = 1;
+}
+
+on key '2'
+{
+  $AirCondActiv = 0;
+}
+
+// Diagnostics checking before normal mode
+
+on linMessage SlaveResp_1
+{
+  @LIN::conf_Slave1_ver = this.SlaveResp_1 ;
+}
+
+on linMessage SlaveResp_2
+{
+  @LIN::conf_Slave2_ver = this.SlaveResp_2 ;
+}
+
+on linMessage SlaveResp_3
+{
+  @LIN::conf_Slave3_ver = this.SlaveResp_3 ;
+}
+
