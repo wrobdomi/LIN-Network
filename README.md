@@ -5,7 +5,7 @@ This project simulates working of air conditioning system in a car vehicle. The 
 ## What is LIN ?
 In a nutshell, LIN network is a communication bus used in vehicles to exchange data. In comparison to CAN bus, LIN costs less and is low speed.  This bus can be usful for applications that are not time-critical such as air conditioning system. 
 
-# Automatic air-coditiong system
+# Automatic air-coditioning system
 
 ## Working principle of the project : 
 The system works in accordance to the principle of working of LIN network. There is master node which is a control unit and two
