@@ -1,0 +1,197 @@
+
+// Created:     17 May 2017
+
+// Author:      Grupa_Poniedzialek
+                                                                   
+
+//                                                                                     
+
+/*************************************************************************************/
+
+LIN_description_file;
+LIN_protocol_version = "2.2";
+LIN_language_version = "2.2";
+LIN_speed = 19.2 kbps;
+
+Nodes 
+{
+
+  Master: LinMaster, 5 ms, 0.1 ms ;
+
+  Slaves: OpeningSensor, TemperatureSensor, AirCond ; 
+
+}
+
+
+Signals {
+
+  OpeningSensor: 1, 0, OpeningSensor, LinMaster ;
+  OpeningSensor_error: 1, 0, OpeningSensor, LinMaster ;
+
+  Temperature: 6, 32, TemperatureSensor, LinMaster;
+  Temperature_error : 1, 0, TemperatureSensor, LinMaster;
+
+  AirCondActiv: 1, 0, LinMaster, AirCond ;
+  AirCondLevel: 2, 0, LinMaster, AirCond ;
+  AirCondHot : 1, 0, LinMaster, AirCond ; 
+  AirCondCold : 1, 0, LinMaster, AirCond ;
+  AirCond_error: 1, 0, AirCond, LinMaster ;
+
+  MasterReq_1 : 1, 0, LinMaster, OpeningSensor ;
+  SlaveResp_1 : 1, 0, OpeningSensor, LinMaster ;  
+  MasterReq_2 : 1, 0, LinMaster, TemperatureSensor;
+  SlaveResp_2 : 1, 0, TemperatureSensor, LinMaster;
+  MasterReq_3 : 1, 0, LinMaster, AirCond ;
+  SlaveResp_3 : 1, 0, AirCond, LinMaster ;
+
+  DiagnosticsCompleted : 1, 0, AirCond, LinMaster ;
+
+   
+}
+
+Diagnostic_signals {
+  MasterReqB0: 8, 0 ;
+  MasterReqB1: 8, 0 ;
+  MasterReqB2: 8, 0 ;
+  MasterReqB3: 8, 0 ;
+  MasterReqB4: 8, 0 ;
+  MasterReqB5: 8, 0 ;
+  MasterReqB6: 8, 0 ;
+  MasterReqB7: 8, 0 ;
+  SlaveRespB0: 8, 0 ;
+  SlaveRespB1: 8, 0 ;
+  SlaveRespB2: 8, 0 ;
+  SlaveRespB3: 8, 0 ;
+  SlaveRespB4: 8, 0 ;
+  SlaveRespB5: 8, 0 ;
+  SlaveRespB6: 8, 0 ;
+  SlaveRespB7: 8, 0 ;
+}
+
+
+Frames 
+{
+  OpeningSensor: 22, OpeningSensor, 1 {
+    OpeningSensor, 0 ;
+    OpeningSensor_error, 1 ;
+  }
+
+  TemperatureSensor : 23, TemperatureSensor, 1 {
+    Temperature, 0 ;
+    Temperature_error, 6 ;
+  }
+
+  AirCond: 24, LinMaster, 1 {
+    AirCondActiv, 0 ;
+    AirCondLevel, 1 ;
+    AirCondHot, 3 ;
+    AirCondCold, 4 ;
+  } 
+  MasterReq_1 : 25, LinMaster, 1 { 
+    MasterReq_1, 0 ;
+}
+  SlaveResp_1 : 26, OpeningSensor, 1 {
+    SlaveResp_1 , 0 ;
+}
+  MasterReq_2 : 27, LinMaster, 1 {
+    MasterReq_2, 0 ;
+}
+  SlaveResp_2 : 28, TemperatureSensor, 1 {
+    SlaveResp_2, 0 ;
+}
+  MasterReq_3 : 29, LinMaster, 1 {
+    MasterReq_3, 0 ;
+}
+  SlaveResp_3 : 30, AirCond, 1 {
+    SlaveResp_3, 0 ;
+}
+  DiagnosticsCompleted : 31, AirCond, 1 {
+    DiagnosticsCompleted, 0;
+}
+
+}
+
+
+Diagnostic_frames {
+  MasterReq: 0x3c {
+    MasterReqB0, 0 ;
+    MasterReqB1, 8 ;
+    MasterReqB2, 16 ;
+    MasterReqB3, 24 ;
+    MasterReqB4, 32 ;
+    MasterReqB5, 40 ;
+    MasterReqB6, 48 ;
+    MasterReqB7, 56 ;
+  }
+  SlaveResp: 0x3d {
+    SlaveRespB0, 0 ;
+    SlaveRespB1, 8 ;
+    SlaveRespB2, 16 ;
+    SlaveRespB3, 24 ;
+    SlaveRespB4, 32 ;
+    SlaveRespB5, 40 ;
+    SlaveRespB6, 48 ;
+    SlaveRespB7, 56 ;
+  }
+}
+
+
+Node_attributes {
+  OpeningSensor{
+    LIN_protocol = "2.2" ;
+    configured_NAD = 0x7 ;
+    initial_NAD = 0x7 ;
+    product_id = 0x1E, 0x6, 1 ;
+    response_error = OpeningSensor_error ;
+    P2_min = 50 ms ;
+    ST_min = 0 ms ;
+    N_As_timeout = 1000 ms ;
+    N_Cr_timeout = 1000 ms ;
+    configurable_frames {
+      OpeningSensor ;
+    }
+  }
+  TemperatureSensor{
+    LIN_protocol = "2.2" ;
+    configured_NAD = 0x6 ;
+    initial_NAD = 0x6 ;
+    product_id = 0x1E, 0x5, 1 ;
+    response_error = Temperature_error ;
+    P2_min = 50 ms ;
+    ST_min = 0 ms ;
+    N_As_timeout = 1000 ms ;
+    N_Cr_timeout = 1000 ms ;
+    configurable_frames {
+    TemperatureSensor;
+	}
+   }
+   AirCond{
+    LIN_protocol = "2.2" ;
+    configured_NAD = 0x5 ;
+    initial_NAD = 0x5 ;
+    product_id = 0x1E, 0x6, 1 ;
+    response_error = AirCond_error ;
+    P2_min = 50 ms ;
+    ST_min = 0 ms ;
+    N_As_timeout = 1000 ms ;
+    N_Cr_timeout = 1000 ms ;
+   
+  }
+}
+
+Schedule_tables {
+ Table_0 {
+    MasterReq_1 delay 2000 ms ;
+    SlaveResp_1 delay 1500 ms ;
+    MasterReq_2 delay 1500 ms ;
+    SlaveResp_2 delay 1500 ms ;
+    MasterReq_3 delay 1500 ms ;
+    SlaveResp_3 delay 1500 ms ;
+    DiagnosticsCompleted delay 5 ms ;
+ }
+ Table_1 {
+    TemperatureSensor delay 5 ms;
+    OpeningSensor delay 5 ms ;
+    AirCond delay 5 ms ;
+ }
+}
