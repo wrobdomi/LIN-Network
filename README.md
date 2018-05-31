@@ -3,7 +3,7 @@ Automotive network simulation.
 This project simulates working of air conditioning system in a car vehicle. The project was developed with use of CANoe software. 
 
 ## What is LIN ?
-In a nutshell, LIN network is a communication bus used in vehicles to exchange data. In comparison to CAN bus, LIN costs less and is low speed.  This bus can be usful for applications that are not time-critical such as air conditioning system. 
+In a nutshell, LIN network is a communication bus used in vehicles to exchange data. In comparison to CAN bus, LIN costs less and is low speed.  This bus can be useful for applications that are not time-critical such as air conditioning system. 
 
 # Automatic air-coditioning system
 
