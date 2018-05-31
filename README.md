@@ -19,7 +19,7 @@ To simulate and test the system, GUI was developed. GUI cen be controlled by cli
 - Set temperature outside '-' or '+' change temperature one degree up or down.
 - '1' and '2' switches on and off automatic air conditiong system. 
 - 's' and 'a' to simulate that any window is open or all widnows are closed
-- red arrow and blue arrow on the ritgh of a panel, to set desired temperature inside vehicle
+- red arrow and blue arrow on the right of a panel, to set desired temperature inside vehicle
 - blue or orange arrow ont the left of a panel indicates wheather system is cooling or heating air  
 ![lin2](https://user-images.githubusercontent.com/37666186/38032004-e34d8806-329c-11e8-9375-b2cf4b6b12e3.PNG)
 ![wdwadwa](https://user-images.githubusercontent.com/37666186/38033524-83690704-32a0-11e8-879d-c9f40c2a70ca.gif)
